@@ -10,22 +10,27 @@ _transform: true
 # Kong entities and attributes
 
 services:
-- name: example-service
-  url: http://mockbin.org
-  routes:
-  - name: example-route
-    hosts:
-    - mockexample.com
-- name: placeholder-service
-  url: http://jsonplaceholder.typicode.com/
-  routes:
-  - name: placeholder-route
-    paths:
-    - /jsonplaceholder
+  - name: example-service
+    url: http://mockbin.org
+    routes:
+      - name: example-route
+        hosts:
+          - mockexample.com
+  - name: http-bin
+    url: https://httpbin.org
+    routes:
+      - name: http-bin-route
+        paths:
+          - /http
+  - name: placeholder-service
+    url: http://jsonplaceholder.typicode.com/
+    routes:
+      - name: placeholder-route
+        paths:
+          - /jsonplaceholder
 
 plugins:
   - name: resurfaceio-logger
     config:
       usage_loggers_url: http://localhost:4001/message
       usage_loggers_rules: include debug
-
