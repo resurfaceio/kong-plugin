@@ -1,1 +1,4 @@
 *.pyc
+kong.conf
+kong.ymal
+*.log
