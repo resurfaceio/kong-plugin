@@ -69,7 +69,7 @@ Schema = (
 )
 
 version = "0.1.0"
-priority = 5
+priority = -1000
 
 
 class Plugin:
@@ -80,12 +80,21 @@ class Plugin:
         )
         self.interval = 0.0
 
-    def access(self, kong, **kwargs):
+    def access(self, kong):
         self.interval = time.time()
+
+    def rewrite(self, kong):
+        pass
+
+    def preread(self, kong):
+        pass
+
+    def log(self, kong):
+        pass
 
     def response(self, kong):
         self.interval = 1000 * (time.time() - self.interval)
-        logger.info(f"Method: {kong.request.get_method()}")
+        kong.log.info(f"Method: {kong.request.get_method()}")
         logger.info(f"Raw request body: {kong.request.get_raw_body()}")
         logger.info(f"Status: {kong.service.response.get_status()}")
         logger.info(f"Raw response body: {kong.service.response.get_body()}")
