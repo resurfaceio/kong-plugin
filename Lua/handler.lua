@@ -181,7 +181,7 @@ function HttpLogHandler:log(conf)
   local msg = {}
   local now = socket.gettime() * 1000
   table.insert(msg, {"host", "Kong-logger"})
-  table.insert(msg, {"now", now})
+  table.insert(msg, {"now", math.floor(now)})
   table.insert(msg, {"interval", now - serTable.started_at})
   table.insert(msg, {"request_method", serTable.request.method})
   table.insert(msg, {"request_url", serTable.request.url})
