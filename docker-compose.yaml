@@ -12,5 +12,5 @@ services:
         container_name: kong
         image: kong:latest
         volumes:
-        - ./kong.conf:/etc/kong/kong.conf
+        - ./kong/kong.conf:/etc/kong/kong.conf
         ports:

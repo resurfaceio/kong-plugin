@@ -1,1 +1,1 @@
-# resurface-kong-logger
+# kong-plugin
