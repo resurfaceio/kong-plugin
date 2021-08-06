@@ -1,11 +1,12 @@
-# kong-plugin
+# resurfaceio-kong-plugin
 
 Easily log API requests and responses to your own [system of record](https://resurface.io/).
 
 ## Requirements
 
 * Kong gateway
-* docker (for [Resurface](https://resurface.io/installation))
+* docker
+* [Resurface](https://resurface.io/installation)
 
 ## Ports Used
 
