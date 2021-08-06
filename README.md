@@ -28,7 +28,7 @@ Easily log API requests and responses to your own [system of record](https://res
 
       mkdir python-plugins
 
-- Download the [plugin](https://github.com/resurfaceio/kong-plugin/blob/master/python/resurfaceio-logger.py) to this directory:
+- Download the [plugin](https://github.com/resurfaceio/kong-plugin/blob/master/python/resurfaceio-logger.py) to said directory:
 
       curl https://raw.githubusercontent.com/resurfaceio/kong-plugin/master/python/resurfaceio-logger.py > python-plugins/resurfaceio-logger.py
       
