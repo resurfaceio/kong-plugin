@@ -1,4 +1,5 @@
 *.pyc
 kong.conf
-kong.ymal
+kong.yml
+kong.yaml
 *.log
