@@ -55,9 +55,10 @@ We can use the Kong's Admin API to enable this plugin like so:
        -H "Content-Type: application/json" \
        -d '{"name": "resurfaceio-logger", "config": { "usage_loggers_url": "http://localhost:4001/message", "usage_loggers_rules": "include debug" }}'
   ```
-  The fields under `config` are necessary for the plugin to communicate with Resurface:
-    - `usage_loggers_url` corresponds to the Resurface database connection URL. If you're running Kong Gateway as a docker container, you should use your `docker0` IP address instead of `localhost`.
-    - `usage_loggers_rules` corresponds to a [set of rules for logging](https://github.com/resurfaceio/kong-plugin#protecting-user-privacy).
+  
+The fields under `config` are necessary for the plugin to communicate with Resurface:
+  - `usage_loggers_url` corresponds to the Resurface database connection URL. If you're running Kong Gateway as a docker container, you should use your `docker0` IP address instead of `localhost`.
+  - `usage_loggers_rules` corresponds to a [set of rules for logging](https://github.com/resurfaceio/kong-plugin#protecting-user-privacy).
 
 #### Enabling the plugin (DB-less mode)
 
