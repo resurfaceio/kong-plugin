@@ -14,7 +14,70 @@ Easily log API requests and responses to your own [system of record](https://res
 * 4001 - Resurface microservice
 * 4000 - Trino database UI
 
-## Option 1: Python plugin
+## Lua plugin
+### Option1: Manual install
+
+#### Kong Gateway plugin server configuration
+
+- If it doesn't already exist, make a new directory named `kong`:
+
+      mkdir kong
+
+- If it doesn't already exist, make a new directory for your Kong plugins (Kong will look for them in this location):
+
+      mkdir kong/plugins
+
+-  Make a new directory called `resurfaceio-logger` inside `kong/plugins`. Download the two plugin files inside the [lua](https://github.com/resurfaceio/kong-plugin/blob/master/python/resurfaceio-logger.py) folder to this directory:
+
+       mkdir kong/plugins/resurfaceio-logger
+       curl https://raw.githubusercontent.com/resurfaceio/kong-plugin/master/lua/handler.lua > kong/plugins/resurfaceio-logger
+       curl https://raw.githubusercontent.com/resurfaceio/kong-plugin/master/lua/schema.lua > kong/plugins/resurfaceio-logger
+      
+- Modify the following lines in your Kong Gatweway configuration file `kong.conf`:
+  
+  ```
+  # -----------------------
+  # Kong configuration file
+  # -----------------------
+  #...
+  plugins = bundled, resurfaceio-logger
+  #...
+  lua_package_path = /path/to/kong/?.lua;;
+  ```
+  
+  Replace `/path/to/kong` with the absolute path to the `kong` directory. For example, if you downloaded the plugin files to `/home/kong/plugins/resurfaceio-logger`, the location of the kong directory is: `/home`, hence the proper path setup would be:
+    
+      lua_package_path = /home/?.lua;;
+  
+#### Enabling the plugin
+
+We can use the Kong's Admin API to enable this plugin like so:
+  ```
+  curl -i -X POST http://localhost:8001/plugins \
+       -H "Content-Type: application/json" \
+       -d '{"name": "resurfaceio-logger", "config": { "http_endpoint": "http://localhost:4001/message", "method": "POST", "timeout": 1000, "keepalive": 1000, "flush_timeout": 2, "retry_count": 15 }}'
+  ```
+
+#### Enabling the plugin (DB-less mode)
+
+Add the following block to your declarative configuration file `kong.yml`:
+  ```
+  plugins:
+  - name: resurfaceio-logger
+    config:
+      http_endpoint: http://localhost:4001/message
+      method: POST
+      timeout: 1000
+      keepalive: 1000
+      flush_timeout: 2
+      retry_count: 15
+  ```
+
+### Option 2: LuaRocks Package
+
+Coming soon!
+
+## Python plugin
 
 #### Dependencies
 
@@ -38,7 +101,7 @@ Easily log API requests and responses to your own [system of record](https://res
   # -----------------------
   # Kong configuration file
   # -----------------------
-  ...
+  #...
   plugins = bundled, resurfaceio-logger
   pluginserver_names = py
   pluginserver_py_socket = /usr/local/kong/python_pluginserver.sock
@@ -75,10 +138,6 @@ Add the following block to your declarative configuration file `kong.yml`:
 The fields under `config` are necessary for the plugin to communicate with Resurface:
   - `usage_loggers_url` corresponds to the Resurface database connection URL. If you're running Kong Gateway as a docker container, you should use your `docker0` IP address instead of `localhost`.
   - `usage_loggers_rules` corresponds to a [set of rules for logging](https://github.com/resurfaceio/kong-plugin#protecting-user-privacy).
-
-## Option 2: Lua plugin
-
-Coming soon!
 
 ## Protecting User Privacy
 
