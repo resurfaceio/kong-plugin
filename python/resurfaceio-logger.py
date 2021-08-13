@@ -1,23 +1,6 @@
+import re
 import time
 from usagelogger import HttpLogger, HttpMessage, HttpRequestImpl, HttpResponseImpl
-import logging
-import re
-
-logging.basicConfig(
-    format="%(asctime)s %(message)s",
-    level=logging.DEBUG,
-    handlers=[logging.FileHandler("debug.log"), logging.StreamHandler()],
-)
-
-logger = logging.getLogger()
-
-
-class safeiter(list):
-    def get(self, index, default=None):
-        try:
-            return self.__getitem__(index)
-        except IndexError:
-            return default
 
 
 def validate_url(url_data):
@@ -38,9 +21,9 @@ def validate_url(url_data):
 def build_url(request) -> str:
     build_ = "".join(
         (
-            safeiter(request.get_scheme())[0] + "://",
-            safeiter(request.get_host())[0],
-            safeiter(request.get_path_with_query())[0],
+            request.get_scheme()[0] + "://",
+            request.get_host()[0],
+            request.get_path_with_query()[0],
         )
     )
     if validate_url(build_):
@@ -49,19 +32,17 @@ def build_url(request) -> str:
         return ""
 
 
-def get_headers(request):
-    headers_ = safeiter(request.get_headers())[0]
-    if headers_ and isinstance(headers_, dict):
-        return {k: ",".join(v) for k, v in request.get_headers()[0].items()}
+def get_pairs(message, isheader):
+    pairs_ = message.get_headers() if isheader else message.get_query()
+    if pairs_ and isinstance(pairs_[0], dict):
+        return {k: ",".join(v) for k, v in pairs_[0].items()}
     return {}
 
+def get_headers(message):
+    return get_pairs(message, True)
 
 def get_queries(request):
-    headers_ = safeiter(request.get_query())[0]
-    if headers_ and isinstance(headers_, dict):
-        return {k: ",".join(v) for k, v in request.get_query()[0].items()}
-    return {}
-
+    return get_pairs(request, False)
 
 Schema = (
     {"usage_loggers_url": {"type": "string"}},
@@ -82,44 +63,30 @@ class Plugin:
 
     def access(self, kong):
         self.interval = time.time()
-
-    def rewrite(self, kong):
-        pass
-
-    def preread(self, kong):
-        pass
-
-    def log(self, kong):
-        pass
+        kong.service.request.enable_buffering()
 
     def response(self, kong):
         self.interval = 1000 * (time.time() - self.interval)
-        kong.log.info(f"Method: {kong.request.get_method()}")
-        logger.info(f"Raw request body: {kong.request.get_raw_body()}")
-        logger.info(f"Status: {kong.service.response.get_status()}")
-        logger.info(f"Raw response body: {kong.service.response.get_body()}")
-
         req = HttpRequestImpl(
-            method=safeiter(kong.request.get_method())[0],
+            method=kong.request.get_method()[0],
             url=build_url(kong.request),
             headers=get_headers(kong.request),
             params=get_queries(kong.request),
-            body=safeiter(kong.request.get_raw_body())[0],
+            body=kong.request.get_raw_body()[0],
         )
         res = HttpResponseImpl(
-            status=safeiter(kong.response.get_status())[0],
-            body=safeiter(kong.service.response.get_raw_body())[0],
-            headers=get_headers(kong.service.response),
+            status=kong.response.get_status()[0],
+            body=kong.service.response.get_raw_body()[0],
+            headers=get_headers(kong.response),
         )
         HttpMessage.send(
             self.logger,
             request=req,
             response=res,
-            interval=str(self.interval),
+            interval=self.interval,
         )
 
 
-if __name__ == "__main__":
-    from kong_pdk.cli import start_dedicated_server
-
-    start_dedicated_server("kong-logger", Plugin, version, priority)
+#if __name__ == "__main__":
+#    from kong_pdk.cli import start_dedicated_server
+#    start_dedicated_server("kong-logger", Plugin, version, priority)
