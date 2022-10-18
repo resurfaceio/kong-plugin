@@ -2,7 +2,7 @@ local typedefs = require "kong.db.schema.typedefs"
 local url = require "socket.url"
 
 return {
-  name = "resurfaceio-logger",
+  name = "usagelogger",
   fields = {
     { protocols = typedefs.protocols },
     { config = {
