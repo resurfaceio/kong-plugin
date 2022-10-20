@@ -13,7 +13,7 @@ description = {
       Resurface can help with failure triage and root cause, threat and risk identification,
       and simply just knowing how your APIs are being used. It identifies what's important
       in your API data, and can send warnings and alerts in real-time for fast action.
-   ]]
+   ]],
    homepage = "https://github.com/resurfaceio/kong-plugin",
    license = "Apache-2.0"
 }
