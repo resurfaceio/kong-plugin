@@ -1,5 +1,5 @@
-*.pyc
-kong.conf
-kong.yml
-kong.yaml
-*.log
+/luarocks
+/lua
+/lua_modules
+/.luarocks
+*.rock
