@@ -20,7 +20,8 @@ description = {
 }
 dependencies = {
    "kong",
-   "resurfaceio-logger"
+   "resurfaceio-logger",
+   "luatz"
 }
 build = {
    type = "builtin",
