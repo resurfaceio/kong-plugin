@@ -25,7 +25,7 @@ dependencies = {
 build = {
    type = "builtin",
    modules = {
-      ["usagelogger.handler"] = "usagelogger/handler.lua",
-      ["usagelogger.schema"] = "usagelogger/schema.lua"
+      ["kong.plugins.usagelogger.handler"] = "kong/plugins/usagelogger/handler.lua",
+      ["kong.plugins.usagelogger.schema"] = "kong/plugins/usagelogger/schema.lua"
    }
 }
