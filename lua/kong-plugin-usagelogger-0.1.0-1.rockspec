@@ -25,7 +25,6 @@ build = {
    type = "builtin",
    modules = {
       ["usagelogger.handler"] = "usagelogger/handler.lua",
-      ["usagelogger.newhandler"] = "usagelogger/newhandler.lua",
       ["usagelogger.schema"] = "usagelogger/schema.lua"
    }
 }
