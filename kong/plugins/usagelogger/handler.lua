@@ -27,7 +27,7 @@ end
 
 function UsageLogHandler:access(conf)
   if resurface_logger.enabled then
-    if (conf.url ~= resurface_logger.url) or (conf.rules ~= resurface_logger.rules.text()) then
+    if (conf.url ~= resurface_logger.url) or (conf.rules ~= resurface_logger.rules:text()) then
       resurface_logger = resurface.HttpLogger:new{url=conf.url, rules=conf.rules}
     end
     if pcall(kong.request.get_raw_body) then
@@ -57,8 +57,9 @@ function UsageLogHandler:log(conf)
     req.body = request_body or ""
     request_body = nil
 
-    res.status = kong.service.response.get_status()
-    res.headers = kong.service.response.get_headers()
+    res.status = kong.service.response.get_status() or serialized.response.status
+    local service_headers = kong.service.response.get_headers()
+    res.headers = next(service_headers) and service_headers or serialized.response.headers
     res.body = pcall(kong.service.response.get_raw_body) and kong.service.response.get_raw_body() or ""
 
     local custom_fields = {
