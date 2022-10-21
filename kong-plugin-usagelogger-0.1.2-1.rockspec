@@ -1,5 +1,5 @@
 package = "kong-plugin-usagelogger"
-version = "0.1.1-1"
+version = "0.1.2-1"
 source = {
    url = "git+https://github.com/resurfaceio/kong-plugin",
    branch = "logger-lua"
