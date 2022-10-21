@@ -57,8 +57,8 @@ function UsageLogHandler:log(conf)
     res.body = pcall(kong.service.response.get_raw_body) and kong.service.response.get_raw_body() or ""
 
     local custom_fields = {
-      ["kong-service"] = serialized.service or "",
-      ["kong-route"] = serialized.route or "",
+      ["kong-service"] = serialized.service and serialized.service.name or "",
+      ["kong-route"] = serialized.route and serialized.route.name or "",
       ["kong-upstream-uri"] = serialized.upstream_uri or ""
     }
 
