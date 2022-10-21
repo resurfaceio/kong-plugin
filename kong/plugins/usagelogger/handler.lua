@@ -47,6 +47,11 @@ function UsageLogHandler:log(conf)
 
     req.method = serialized.request.method
     req.url = serialized.request.url
+    local qs_index = ngx.re.find(req.url,[[\?]])
+    if qs_index and qs_index > 0 then
+      req.url = string.sub(req.url, 1, qs_index - 1)
+    end
+    req.params = serialized.request.querystring
     req.headers = serialized.request.headers
     req.headers["X-FORWARDED-FOR"] = serialized.client_ip
     req.body = request_body or ""
