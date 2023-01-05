@@ -4,13 +4,28 @@ Capture API requests and responses directly from your Kong API Gateway to your o
 
 ## Contents
 
-## Installation
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installing_with_luarocks">Installing With LuaRocks</a></li>
+<li><a href="#plugin_configuration">Plugin Configuration</a></li>
+<li><a href="#privacy">Protecting User Privacy</a></li>
+</ul>
+
+<a name="requirements"/>
+
+## Requirements
+
+Requires Kong Gateway >2.x, a container runtime such as docker is required to run the Resurface container.
+
+<a name="installing_with_luarocks"/>
+
+## Installing with LuaRocks
 
 ```bash
 luarocks install kong-plugin-usagelogger
 ```
 
-## Usage
+## Plugin Configuration
 
 ```yaml
  plugins:
@@ -19,6 +34,8 @@ luarocks install kong-plugin-usagelogger
      url: http://172.17.0.1:7701/message
      rules: include debug
 ```
+
+<a name="privacy"/>
 
 ## Protecting User Privacy
 
