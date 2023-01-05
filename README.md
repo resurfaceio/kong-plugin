@@ -49,8 +49,8 @@ This plugin can be enabled globally, as follows:
 ```bash
 curl -X POST http://localhost:8001/plugins/ \
   --data "name=usagelogger"  \
-    --data "config.url=http://172.17.0.1:7701/message" \
-    --data "config.rules='include debug'"
+  --data "config.url=http://172.17.0.1:7701/message" \
+  --data "config.rules='include debug'"
 ```
 
 ####  Declarative (YAML)
