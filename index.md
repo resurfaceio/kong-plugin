@@ -40,8 +40,6 @@ params:
 
 ## Log format
 
-{:.note}
-> **Note:** If the `queue_size` argument > 1, a request is logged as an array of JSON objects.
 {% include /md/plugins-hub/log-format.md %}
 
 ### JSON object considerations
