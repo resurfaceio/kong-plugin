@@ -6,7 +6,19 @@ Capture API requests and responses directly from your Kong API Gateway to your o
 
 ## Installation
 
+```bash
+luarocks install kong-plugin-usagelogger
+```
+
 ## Usage
+
+```yaml
+ plugins:
+ - name: usagelogger
+   config:
+     url: http://172.17.0.1:7701/message
+     rules: include debug
+```
 
 ## Protecting User Privacy
 
@@ -15,4 +27,4 @@ Loggers always have an active set of <a href="https://resurface.io/rules.html">r
 <a href="https://resurface.io/rules.html">Logging rules documentation</a>
 
 ---
-<small>&copy; 2016-2022 <a href="https://resurface.io">Resurface Labs Inc.</a></small>
+<small>&copy; 2016-2023 <a href="https://resurface.io">Resurface Labs Inc.</a></small>
