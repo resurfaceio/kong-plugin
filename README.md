@@ -15,17 +15,45 @@ Capture API requests and responses directly from your Kong API Gateway to your o
 
 ## Requirements
 
-Requires Kong Gateway >2.x, a container runtime such as docker is required to run the Resurface container.
+- Kong Gateway >2.x
+- LuaRocks 3.9.1
+- `unzip` package
+- A container runtime such as docker is required to run the Resurface container.
 
 <a name="installing_with_luarocks"/>
 
 ## Installing with LuaRocks
+
+The `kong-plugin-usagelogger` rock is [available for download](https://luarocks.org/modules/resurfacelabs/kong-plugin-usagelogger) from the LuaRocks site.
 
 ```bash
 luarocks install kong-plugin-usagelogger
 ```
 
 ## Plugin Configuration
+
+This plugin is compatible with DB-less mode.
+
+In DB-less mode, you configure Kong Gateway declaratively. Therefore, the Admin API is mostly read-only. The only tasks it can perform are all related to handling the declarative config, including: 
+
+- Setting a target's health status in the load balancer
+- Validating configurations against schemas
+- Uploading the declarative configuration using the `/config` endpoint
+
+### Example plugin configuration
+
+This plugin can be enabled globally, as follows:
+
+#### Admin API
+
+curl -X POST http://localhost:8001/plugins/ \
+  --data "name=usagelogger"  \
+    --data "config.url=http://172.17.0.1:7701/message" \
+    --data "config.rules='include debug'"
+
+####  Declarative (YAML)
+
+Add a plugins entry in the declarative configuration file:
 
 ```yaml
  plugins:
