@@ -1,6 +1,8 @@
 # kong-plugin-usagelogger
+Easily log API requests and responses to your own <a href="https://resurface.io">security data lake</a>.
 
-Capture API requests and responses directly from your Kong API Gateway to your own <a href="https://resurface.io/">data lake</a>.
+[![License](https://img.shields.io/github/license/resurfaceio/kong-plugin)](https://github.com/resurfaceio/kong-plugin/blob/master/LICENSE)
+[![Contributing](https://img.shields.io/badge/contributions-welcome-green.svg)](https://github.com/resurfaceio/kong-plugin/blob/master/CONTRIBUTING.md)
 
 ## Contents
 
