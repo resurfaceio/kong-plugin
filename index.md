@@ -1,5 +1,5 @@
 name: API Usage Logger
-publisher: Resurface Labs
+publisher: resurface.io
 desc: Capture API requests and responses from your API Gateway to your own data lake.
 description: |
   Capture API requests and responses directly from your Kong API Gateway to Resurface, your own data lake.
